@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/sass/style.scss">
+    <link rel="stylesheet" href="/public/fonts/stylesheet.css">
+    <link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon">
+
+    <title>Uzum Market</title>
+</head>
+
+<body>
+    <div class="center">
+        <h1>Войти в аккаунт</h1>
+
+        <form name="login">
+            <input type="text" name="email" placeholder="email">
+            <input type="text" name="password" placeholder="password">
+            <button>Продолжить</button>
+        </form>
+        <a href="/pages/registration.html">Регистрация</a>
+    </div>
+
+    <script type="module">
+        import axios from 'axios'
+        let form = document.forms.login
+        let inpts = document.querySelectorAll('input')
+        let loc = JSON.parse(localStorage.getItem('user'))
+
+        form.onsubmit = (e) => {
+            e.preventDefault()
+
+            axios.get('http://localhost:3000/users?email=' + inpts[0].value)
+                .then(res => {
+                    if (res.status === 200 || res.status === 201) {
+                        let user = res.data[0]
+                        console.log(user);
+                        if (inpts[1].value === user.password) {
+                            localStorage.setItem('user', JSON.stringify(user.id))
+                            window.location.assign('/index.html')
+                        } else {
+                            alert('wrong password')
+                        }
+                    }
+                })
+        }
+
+    </script>
+</body>
+
+</html>
