@@ -48,11 +48,15 @@ function sideReload(arr, place) {
 
 
 
+
 inp_to.addEventListener("keydown", (e) => {
     const filtered = goods.data.filter((item) => {
         let str = item.price.toString()
         return str.includes(e.target.value)
     })
-    productReload(filtered, products_grid)
+    productReload(filtered.filter(i => {
+        let str = i.price.toString()
+        return i.price <= str
+    }), products_grid)
 })
 
